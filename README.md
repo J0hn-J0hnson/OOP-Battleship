@@ -21,14 +21,6 @@ Shown below, the initial interface. Player 1 first inserts the locations of his 
 player 2's turn
 
 
-![image](https://user-images.githubusercontent.com/91310490/225036923-09b51e3e-cdf5-4230-9d07-ea1fbc7deef7.png)
-
-
-victory screen in a game with only 1 ship.
-
-
-
-
 ![image](https://user-images.githubusercontent.com/91310490/224933306-f475b7ab-34df-4d99-8e29-ab38c7b78234.png)
 
 
@@ -40,3 +32,9 @@ Next players take turns inputting a coordinate [A-J][0-9] that they wish to atta
 
 ![image](https://user-images.githubusercontent.com/91310490/224934943-65402a63-347c-4674-9bf6-4f26c2b97c9b.png)
 
+
+
+![image](https://user-images.githubusercontent.com/91310490/225036923-09b51e3e-cdf5-4230-9d07-ea1fbc7deef7.png)
+
+
+victory screen in a game with only 1 ship.
