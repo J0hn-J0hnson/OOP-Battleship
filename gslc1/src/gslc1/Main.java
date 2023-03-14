@@ -1,6 +1,11 @@
 package gslc1;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+
 public class Main {
 	
 	static boolean check_valid(String s, int len, char[][] table, char bn, ArrayList<Integer> arr) {
@@ -74,8 +79,8 @@ public class Main {
 	static int find_e(char[] table, char tc) {
 		int i = 0;
 		for(char c: table) {
-				if(c == tc) return i;
-				i++;
+			if(c == tc) return i;
+			i++;
 		}
 		return i;
 	}
@@ -108,6 +113,21 @@ public class Main {
 		return true;
 	}
 	
+	static void tp(char[][] table) {
+		char alph = 'A';
+		System.out.print("  ");
+		for(int j = 0; j < 10; j++) {
+			System.out.print((char)((int)alph + j) + " ");
+		}
+		System.out.println();
+		for(int j = 0; j < 10; j++) {
+			System.out.print(j + " ");
+			for(int k = 0; k < 10; k++) {
+				System.out.print(table[j][k] + " ");
+			}
+			System.out.println("\n");
+		}
+	}
 	
 	public static void main(String[] args) {
 		// generate initial board
@@ -154,28 +174,17 @@ public class Main {
 		System.out.println("Player 1: Insert Ships(collumn, row) [A-J][0-9] -> [A-j][0-9] ");
 		for(int i = 0; i < 5; i++) {
 			
-			for(int j = 0; j < 10; j++) {
-				for(int k = 0; k < 10; k++) {
-					System.out.print(table_p1[j][k] + " ");
-				}
-				System.out.println("\n");
-			}
-			
+			tp(table_p1);
 			System.out.println(sari[i] + " | Size = " + iari[i] + " | Location [A-J][0-9] -> [A-j][0-9]:");
-			
 			p1_ships.put(cari[i], new ArrayList<Integer>());
-			
 			do{
 				si = sc.nextLine();
 			}while(check_valid(si, iari[i], table_p1, cari[i], p1_ships.get(cari[i])) == false);
 			
 		}
-		for(int j = 0; j < 10; j++) {
-			for(int k = 0; k < 10; k++) {
-				System.out.print(table_p1[j][k] + " ");
-			}
-			System.out.println("\n");
-		}
+		tp(table_p1);
+		
+		
 		for(int i = 0; i < 30; i++) {
 			System.out.println("\n");
 		}		
@@ -183,13 +192,7 @@ public class Main {
 		System.out.println("Player 2: Insert Ships(collumn, row) [A-J][0-9] -> [A-j][0-9] ");
 		for(int i = 0; i < 5; i++) {
 			
-			for(int j = 0; j < 10; j++) {
-				for(int k = 0; k < 10; k++) {
-					System.out.print(table_p2[j][k] + " ");
-				}
-				System.out.println("\n");
-			}
-			
+			tp(table_p2);
 			System.out.println(sari[i] + " | Size = " + iari[i] + " | Location (coord1 coord2):");
 			
 			p2_ships.put(cari[i], new ArrayList<Integer>());
@@ -198,48 +201,45 @@ public class Main {
 				si = sc.nextLine();
 			}while(check_valid(si, iari[i], table_p2, cari[i], p2_ships.get(cari[i])) == false);			
 		}
-		for(int j = 0; j < 10; j++) {
-			for(int k = 0; k < 10; k++) {
-				System.out.print(table_p1[j][k] + " ");
-			}
-			System.out.println("\n");
-		}
+
+		tp(table_p2);
 		for(int i = 0; i < 30; i++) {
 			System.out.println("\n");
 		}	
 
 		/////////////////////////////////////////////////////////////////////////////////////
 		int turn = 1;
+		int tt = 1;
 		while(p1_ships.isEmpty() == false && p2_ships.isEmpty() == false){
 			if(turn % 2 != 0) {
 				do {
 					System.out.println("Player 1 Input Target [A-J 0-9]:");
 					si = sc.nextLine();
 					// input , 
-				}while(attack(si, table_e_p1, table_p2, bool_table_p1, p1_ships) == false);
-				// print board
-				for(int j = 0; j < 10; j++) {
-					for(int k = 0; k < 10; k++) {
-						System.out.print(table_e_p1[j][k] + " ");
-					}
-					System.out.println("\n");
-				}
+				}while(attack(si, table_e_p1, table_p2, bool_table_p1, p2_ships) == false);
+
+				tp(table_e_p1);
 			}else {
 				do{
 					System.out.println("Player 2 Input Target [A-J 0-9]:");
 					si = sc.nextLine();
-				}while(attack(si, table_e_p2, table_p1, bool_table_p2, p2_ships) == false);
+				}while(attack(si, table_e_p2, table_p1, bool_table_p2, p1_ships) == false);
 				// print board
-				for(int j = 0; j < 10; j++) {
-					for(int k = 0; k < 10; k++) {
-						System.out.print(table_e_p2[j][k] + " ");
-					}
-					System.out.println("\n");
-				}
+				tp(table_e_p2);
 			}
 			turn++;			
 		}
-		if(p1_ships.isEmpty() == false) {
+		if(turn % 2 == 0) {
+			do{
+				System.out.println("Player 2 Input Target [A-J 0-9]:");
+				si = sc.nextLine();
+			}while(attack(si, table_e_p2, table_p1, bool_table_p2, p1_ships) == false);
+			tp(table_e_p2);
+		}
+		
+		if(p1_ships.isEmpty() && p2_ships.isEmpty()){
+			System.out.println("Draw!");
+		}else if(p1_ships.isEmpty()) {
 			System.out.println("Player 2 Wins!");
 		}else {
 			System.out.println("Player 1 Wins!");
